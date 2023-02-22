@@ -1,20 +1,27 @@
+/*
+TODO Skicka Max Min Värden till finetunespakarna
+*/
 import controlP5.*;
 
 ControlP5 cp5;
-
+Slider sl, sr;
+Numberbox nlMax,nlMin,nrMax,nrMin;
 int col = color(255);
 
 boolean toggleValue = false;
 Knob volKnob;
 
+int leftMax=440,leftMin=55,rightMax = 440,rightMin = 55;
+int lMax=440,lMin=55,rMax = 440,rMin = 55;
+
+boolean started = false;
+
 void setup() {
   size(400, 400);
-  int unit = width / 16;
-  int two_units = unit * 2;
-  int tri_units = unit * 3;
-  int four_units = unit * 4;
-  int ten_units = unit * 10;
-  int twelve_units = unit * 12;
+  //leftMax=440;leftMin=55;rightMax = 440;rightMin = 55;
+
+  int unit = width / 16, two_units = unit * 2, tri_units = unit * 3,
+  four_units = unit * 4, ten_units = unit * 10, twelve_units = unit * 12;
 
   PFont font = createFont("arial",20);
   smooth();
@@ -39,8 +46,8 @@ void setup() {
     .setPosition(0, 0)
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
-    .setRange(55, 440)
-    .setValue(440)
+    .setRange(leftMin, leftMax)
+    .setValue(leftMax)
     .setLabel("")
     .setFont(font)
     ;
@@ -49,8 +56,8 @@ void setup() {
     .setPosition(width-tri_units, 0)
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
-    .setRange(55, 440)
-    .setValue(440)
+    .setRange(rightMin, rightMax)
+    .setValue(rightMax)
     .setLabel("")
     .setFont(font)
     ;
@@ -59,8 +66,8 @@ void setup() {
     .setPosition(0, height-two_units)
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
-    .setRange(55, 440)
-    .setValue(55)
+    .setRange(leftMin, leftMax)
+    .setValue(leftMin)
     .setLabel("")
     .setFont(font)
     ;
@@ -69,8 +76,8 @@ void setup() {
     .setPosition(width-tri_units, height-two_units)
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
-    .setRange(55, 440)
-    .setValue(55)
+    .setRange(rightMin, rightMax)
+    .setValue(rightMin)
     .setLabel("")
     .setFont(font)
     ;
@@ -89,11 +96,11 @@ void setup() {
     .setLabelVisible(false) 
     ;     
 
-  cp5.addSlider("left_slider")
+  sl = cp5.addSlider("left_slider")
     .setPosition(0, two_units)
     .setSize(tri_units, twelve_units)
-    .setRange(0, 10)
-    .setValue(7)
+    .setRange(leftMin, leftMax)
+    .setValue(leftMax/2)
     .setNumberOfTickMarks(11)
     .showTickMarks(true)
     .setLabel("")
@@ -104,20 +111,18 @@ void setup() {
   cp5.getController("left_slider").getValueLabel().align(ControlP5.RIGHT, ControlP5.TOP).setPaddingX(0);
 
 
-  cp5.addSlider("right_slider")
+  sr = cp5.addSlider("right_slider")
     .setPosition(width-tri_units, two_units)
     .setSize(tri_units, twelve_units)
-    .setRange(0, 10)
-    .setValue(7)
+    .setRange(rightMin, rightMax)
+    .setValue(rightMax/2)
     .setNumberOfTickMarks(11)
     .showTickMarks(true)
     .setLabel("")
     .setFont(font)
-    //.setLabelVisible(false)
     ;
   cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
-
-  //cp5.getController("right_slider").getValueLabel().setPaddingX(-tri_units);
+  started = true;
 }
 
 
@@ -132,8 +137,38 @@ void draw() {
   popMatrix();
 }
 
-void numberbox(int theColor) {
-  println("a numberbox event. setting background to "+theColor);
+void leftMaxHz(int theValue) {
+  if(started){
+  lMax = theValue;
+  //println(lmin + " " + theValue)
+  //noLoop();
+  sl.setRange(lMin,theValue);
+  }
+  //nlMin.setRange(leftMin,theValue);
+}
+
+void leftMinHz(int theValue) {
+  if(started){
+  lMin = theValue;
+  sl.setRange(theValue,lMax);
+  }
+  //nlMax.setRange(theValue,leftMax);
+}
+
+void rightMaxHz(int theValue) {
+  if(started){
+  rMax = theValue;
+  sr.setRange(rMin,theValue);
+  }
+  //println("rightMaxHz is set to "+theValue);
+}
+
+void rightMinHz(int theValue) {
+  if(started){
+  rMin = theValue;
+  sr.setRange(theValue,rMax);
+  }
+  //println("rightMaxHz is set to "+theValue);
 }
 
 void toggle_left(boolean theFlag) {
@@ -142,7 +177,7 @@ void toggle_left(boolean theFlag) {
   } else {
     col = color(100);
   }
-  println("a toggle event.");
+  //println("a toggle event.");
 }
 
 void toggle_right(boolean theFlag) {
@@ -151,13 +186,13 @@ void toggle_right(boolean theFlag) {
   } else {
     col = color(100);
   }
-  println("a toggle event.");
+  //println("a toggle event.");
 }
 
 void left_slider(float theValue) {
-  println("left slider event. setting value to "+theValue);
+  //println("left slider event. setting value to "+theValue);
 }
 
 void right_slider(float theValue) {
-  println("right slider event. setting value to "+theValue);
+  //println("right slider event. setting value to "+theValue);
 }
