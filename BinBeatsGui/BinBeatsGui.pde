@@ -1,6 +1,3 @@
-/*
-TODO Skicka Max Min Värden till finetunespakarna
-*/
 import controlP5.*;
 
 ControlP5 cp5;
@@ -18,14 +15,15 @@ boolean started = false;
 
 void setup() {
   size(400, 400);
-  //leftMax=440;leftMin=55;rightMax = 440;rightMin = 55;
-
-  int unit = width / 16, two_units = unit * 2, tri_units = unit * 3,
-  four_units = unit * 4, ten_units = unit * 10, twelve_units = unit * 12;
-
-  PFont font = createFont("arial",20);
   smooth();
   cp5 = new ControlP5(this);
+  setupCp5();
+}
+
+void setupCp5(){
+  PFont font = createFont("arial",20);
+  int unit = width / 16, two_units = unit * 2, tri_units = unit * 3,
+  four_units = unit * 4, ten_units = unit * 10, twelve_units = unit * 12;
 
   volKnob = cp5.addKnob("knobValue")
                .setRange(0,200)
@@ -39,8 +37,6 @@ void setup() {
                .setLabel("")
                .setFont(font)
                ;
- //cp5.getController("knobValue").getCaptionLabel().align(ControlP5.CENTER, ControlP5.BOTTOM).setPaddingX(0);
-
 
   cp5.addNumberbox("leftMaxHz")
     .setPosition(0, 0)
@@ -106,7 +102,7 @@ void setup() {
     .setLabel("")
     .setFont(font)
     ;
-  cp5.getController("left_slider").getValueLabel().align(ControlP5.RIGHT, ControlP5.TOP).setPaddingX(0);
+  cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
 
   sr = cp5.addSlider("right_slider")
     .setPosition(width-tri_units, two_units)
@@ -122,7 +118,6 @@ void setup() {
   started = true;
 }
 
-
 void draw() {
   background(0);
   pushMatrix();
@@ -136,6 +131,7 @@ void leftMaxHz(int theValue) {
   if(started && theValue > lMin){
   lMax = theValue;
   sl.setRange(lMin,theValue);
+  cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }
 
@@ -143,6 +139,7 @@ void leftMinHz(int theValue) {
   if(started && theValue < lMax){
   lMin = theValue;
   sl.setRange(theValue,lMax);
+  cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }
 
@@ -150,6 +147,7 @@ void rightMaxHz(int theValue) {
   if(started && theValue > rMin){
   rMax = theValue;
   sr.setRange(rMin,theValue);
+  cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }
 
@@ -157,6 +155,7 @@ void rightMinHz(int theValue) {
   if(started && theValue < rMax){
   rMin = theValue;
   sr.setRange(theValue,rMax);
+  cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }
 
@@ -166,7 +165,6 @@ void toggle_left(boolean theFlag) {
   } else {
     col = color(100);
   }
-  //println("a toggle event.");
 }
 
 void toggle_right(boolean theFlag) {
@@ -175,13 +173,10 @@ void toggle_right(boolean theFlag) {
   } else {
     col = color(100);
   }
-  //println("a toggle event.");
 }
 
 void left_slider(float theValue) {
-  //println("left slider event. setting value to "+theValue);
 }
 
 void right_slider(float theValue) {
-  //println("right slider event. setting value to "+theValue);
 }
