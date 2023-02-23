@@ -85,14 +85,14 @@ void setup() {
   cp5.addToggle("toggle_left")
     .setPosition(tri_units, 0)
     .setSize(ten_units, tri_units)
-    .setValue(true)
+    .setValue(false)
     .setLabelVisible(false) 
     ;
 
   cp5.addToggle("toggle_right")
     .setPosition(tri_units, height-tri_units)
     .setSize(ten_units, tri_units)
-    .setValue(true)
+    .setValue(false)
     .setLabelVisible(false) 
     ;     
 
@@ -105,11 +105,8 @@ void setup() {
     .showTickMarks(true)
     .setLabel("")
     .setFont(font)
-
-    //.setLabelVisible(false)
     ;
   cp5.getController("left_slider").getValueLabel().align(ControlP5.RIGHT, ControlP5.TOP).setPaddingX(0);
-
 
   sr = cp5.addSlider("right_slider")
     .setPosition(width-tri_units, two_units)
@@ -128,47 +125,39 @@ void setup() {
 
 void draw() {
   background(0);
-
   pushMatrix();
   translate(width/2, height/2);
   fill(col);
   ellipse(0, 0, 40, 40);
-
   popMatrix();
 }
 
 void leftMaxHz(int theValue) {
-  if(started){
+  if(started && theValue > lMin){
   lMax = theValue;
-  //println(lmin + " " + theValue)
-  //noLoop();
   sl.setRange(lMin,theValue);
   }
-  //nlMin.setRange(leftMin,theValue);
 }
 
 void leftMinHz(int theValue) {
-  if(started){
+  if(started && theValue < lMax){
   lMin = theValue;
   sl.setRange(theValue,lMax);
   }
-  //nlMax.setRange(theValue,leftMax);
 }
 
 void rightMaxHz(int theValue) {
-  if(started){
+  if(started && theValue > rMin){
   rMax = theValue;
   sr.setRange(rMin,theValue);
   }
-  //println("rightMaxHz is set to "+theValue);
 }
 
 void rightMinHz(int theValue) {
-  if(started){
+  if(started && theValue < rMax){
   rMin = theValue;
   sr.setRange(theValue,rMax);
   }
-  //println("rightMaxHz is set to "+theValue);
 }
 
 void toggle_left(boolean theFlag) {
