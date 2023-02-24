@@ -4,11 +4,7 @@ SinOsc lsine,rsine;
 float minFreq = 55.0;
 float maxFreq = 880.0;
 
-void setup() {
-  size(360, 360);
-  background(255);
-  textSize(32);
-  textAlign(CENTER, CENTER);
+void soundSetup() {
   // skapar instanser av två oscillatorer
   lsine = new SinOsc(this);
   rsine = new SinOsc(this);
@@ -20,8 +16,7 @@ void setup() {
   rsine.play();
 }
 
-void draw() {
-  background(0);
+void soundUpdate() {
   lsine.amp(0.8);
   rsine.amp(0.8);
   // Beräknar vänster frekvens utifrån musens position i x-led
