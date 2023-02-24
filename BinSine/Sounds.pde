@@ -1,8 +1,9 @@
 import processing.sound.*;
 
 SinOsc lsine,rsine;
-float minFreq = 55.0;
-float maxFreq = 880.0;
+float left_frequency = 55.0f;
+float right_frequency = 55.0f;
+float amp = 0.5f;
 
 void soundSetup() {
   // skapar instanser av två oscillatorer
@@ -11,20 +12,11 @@ void soundSetup() {
   // ställer panorering till vänster respektive höger högtalare
   lsine.pan(-1);
   rsine.pan(1);
-  // startar oscillatorerna
-  lsine.play();
-  rsine.play();
 }
 
 void soundUpdate() {
-  lsine.amp(0.8);
-  rsine.amp(0.8);
-  // Beräknar vänster frekvens utifrån musens position i x-led
-  float left_frequency = map(mouseX, 0, width, minFreq, maxFreq);
+  lsine.amp(amp);
+  rsine.amp(amp);
   lsine.freq(left_frequency);
-  // Beräknar höger frekvens utifrån musens position i y-led
-  float right_frequency = map(mouseY, 0, width, minFreq, maxFreq);
   rsine.freq(right_frequency);
-  // Berättar för användaren vilka frekvenser vi har
-  text("< " + left_frequency + " Hz \n" + right_frequency + " Hz >" ,width/2,height/2);
 }
