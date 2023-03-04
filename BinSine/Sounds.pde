@@ -1,8 +1,10 @@
 import processing.sound.*;
 
+FFT fft;
+int fftBands = 64;
 SinOsc lsine,rsine;
-float left_frequency = 55.0f;
-float right_frequency = 55.0f;
+float left_frequency = 440.0f;
+float right_frequency = 440.0f;
 float amp = 0.5f;
 
 void soundSetup() {
@@ -12,6 +14,9 @@ void soundSetup() {
   // ställer panorering till vänster respektive höger högtalare
   lsine.pan(-1);
   rsine.pan(1);
+  fft = new FFT(this, 64);
+  lsine.play();
+  fft.input(lsine);
 }
 
 void soundUpdate() {
@@ -19,4 +24,5 @@ void soundUpdate() {
   rsine.amp(amp);
   lsine.freq(left_frequency);
   rsine.freq(right_frequency);
+  fft.analyze();
 }

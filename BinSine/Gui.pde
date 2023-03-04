@@ -3,19 +3,20 @@ import controlP5.*;
 ControlP5 cp5;
 Slider sl, sr;
 Numberbox nlMax,nlMin,nrMax,nrMin;
-int col = color(255);
+int col = color(55);
+//int col = color(255);
 
 boolean toggleValue = false;
 Knob volKnob;
 
-float leftMax=440,leftMin=22,rightMax = 440,rightMin = 22;
+float leftMax=880,leftMin=22,rightMax = 880,rightMin = 22;
 float lMax=440,lMin=22,rMax = 440,rMin = 22;
-float leftSlideMax=110,leftSlideMin=55,rightSlideMax = 110,rightSlideMin = 55;
-
+float leftSlideMax=440,leftSlideMin=440,rightSlideMax = 440,rightSlideMin = 440;
+float lVal=440,rVal=440,lminVal = 55,rminVal = 22;
 boolean started = false;
+int unit;
 
 void guiSetup() {
-  background(255);
   textSize(32);
   textAlign(CENTER, CENTER);
 
@@ -26,14 +27,15 @@ void guiSetup() {
 
 void setupCp5(){
   PFont font = createFont("arial",20);
-  int unit = width / 16, two_units = unit * 2, tri_units = unit * 3,
+  unit = width / 16;
+  int two_units = unit * 2, tri_units = unit * 3,
   four_units = unit * 4, ten_units = unit * 10, twelve_units = unit * 12;
-
+  cp5.setAutoDraw(false);
   volKnob = cp5.addKnob("knobValue")
                .setRange(0,200)
                .setValue(50)
                .setPosition(four_units,four_units)
-               .setRadius(four_units)
+               .setRadius(unit)
                .setNumberOfTickMarks(10)
                .setViewStyle(Knob.ELLIPSE)
                .setDragDirection(Knob.HORIZONTAL)
@@ -47,7 +49,7 @@ void setupCp5(){
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
     .setRange(leftMin, leftMax)
-    .setValue(110)
+    .setValue(lVal)
     .setLabel("")
     .setFont(font)
     ;
@@ -57,7 +59,7 @@ void setupCp5(){
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
     .setRange(rightMin, rightMax)
-    .setValue(110)
+    .setValue(rVal)
     .setLabel("")
     .setFont(font)
     ;
@@ -67,7 +69,7 @@ void setupCp5(){
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
     .setRange(leftMin, leftMax)
-    .setValue(55)
+    .setValue(lminVal)
     .setLabel("")
     .setFont(font)
     ;
@@ -77,7 +79,7 @@ void setupCp5(){
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
     .setRange(rightMin, rightMax)
-    .setValue(55)
+    .setValue(rminVal)
     .setLabel("")
     .setFont(font)
     ;
@@ -86,7 +88,7 @@ void setupCp5(){
     .setPosition(tri_units, 0)
     .setSize(ten_units, tri_units)
     .setValue(false)
-    .setLabelVisible(false) 
+    .setLabelVisible(false)
     ;
 
   cp5.addToggle("toggle_right")
