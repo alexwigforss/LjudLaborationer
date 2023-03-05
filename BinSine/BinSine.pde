@@ -7,7 +7,9 @@ void setup() {
 void draw() {
   background(0,0,100,100);
   cp5.draw();
-  text(fft.spectrum[10] ,width/2,height/2);
+  for (int i = 1; i < 10; ++i) {
+    text(fft.spectrum[i] ,width/2,(height/4)+(20*i));
+  }
   line(0, 0, width, height);
   noFill();
   circle(mouseX, mouseY, unit);
