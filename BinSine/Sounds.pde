@@ -1,7 +1,12 @@
 import processing.sound.*;
 
 FFT fft;
-int fftBands = 32;
+int fftBands = 16;
+
+Waveform rightwave;
+Waveform leftwave;
+int samples = 256;
+
 SinOsc lsine,rsine;
 float left_frequency = 440.0f;
 float right_frequency = 440.0f;
@@ -11,12 +16,23 @@ void soundSetup() {
   // skapar instanser av två oscillatorer
   lsine = new SinOsc(this);
   rsine = new SinOsc(this);
+
+  rightwave = new Waveform(this, samples);
+  leftwave = new Waveform(this, samples);
+  leftwave.input(lsine);
+  rightwave.input(rsine);
+
   // ställer panorering till vänster respektive höger högtalare
-  lsine.pan(-1);
-  rsine.pan(1);
-  fft = new FFT(this, 32);
-  //lsine.play();
-  fft.input(lsine);
+  lsine.pan(0);
+  rsine.pan(0);
+  
+
+  // BUG TO RESOLVE
+  // rsine.pan(-1); // får båda att synas, så analyze() läser tydligen endast vänsterkanalen.
+
+  // fft = new FFT(this, 16);
+  // fft.input(lsine);
+
 }
 
 void soundUpdate() {
@@ -24,5 +40,8 @@ void soundUpdate() {
   rsine.amp(amp);
   lsine.freq(left_frequency);
   rsine.freq(right_frequency);
-  fft.analyze();
+  //fft.analyze();
+  // // Perform the analysis
+  // leftwave.analyze();
+  // rightwave.analyze();
 }
