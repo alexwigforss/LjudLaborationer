@@ -11,8 +11,8 @@ Knob volKnob;
 
 float leftMax=880,leftMin=22,rightMax = 880,rightMin = 22;
 float lMax=440,lMin=22,rMax = 440,rMin = 22;
-float leftSlideMax=440,leftSlideMin=440,rightSlideMax = 440,rightSlideMin = 440;
-float lVal=440,rVal=440,lminVal = 55,rminVal = 22,lmaxVal = 440,rmaxVal = 440;
+float leftSlideMax=440,leftSlideMin=22,rightSlideMax = 440,rightSlideMin = 22;
+float lVal=440,rVal=440,lMinStartVal = 55,rminVal = 22,lMaxStartVal = 220,rmaxVal = 440;
 boolean started = false;
 int unit;
 
@@ -49,7 +49,7 @@ void setupCp5(){
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
     .setRange(leftMin, leftMax)
-    .setValue(lmaxVal)
+    .setValue(leftMax)
     .setLabel("")
     .setFont(font)
     ;
@@ -59,30 +59,30 @@ void setupCp5(){
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
     .setRange(leftMin, leftMax)
-    .setValue(lminVal)
+    .setValue(leftMin)
     .setLabel("")
     .setFont(font)
     ;
 
-  cp5.addNumberbox("rightMaxHz")
-    .setPosition(width-tri_units, 0)
-    .setSize(tri_units, two_units)
-    .setMultiplier(-1)
-    .setRange(rightMin, rightMax)
-    .setValue(rminVal)
-    .setLabel("")
-    .setFont(font)
-    ;
+  // cp5.addNumberbox("rightMaxHz")
+  //   .setPosition(width-tri_units, 0)
+  //   .setSize(tri_units, two_units)
+  //   .setMultiplier(-1)
+  //   .setRange(rightMin, rightMax)
+  //   .setValue(rminVal)
+  //   .setLabel("")
+  //   .setFont(font)
+  //   ;
 
-  cp5.addNumberbox("rightMinHz")
-    .setPosition(width-tri_units, height-two_units)
-    .setSize(tri_units, two_units)
-    .setMultiplier(-1)
-    .setRange(rightMin, rightMax)
-    .setValue(rminVal)
-    .setLabel("")
-    .setFont(font)
-    ;
+  // cp5.addNumberbox("rightMinHz")
+  //   .setPosition(width-tri_units, height-two_units)
+  //   .setSize(tri_units, two_units)
+  //   .setMultiplier(-1)
+  //   .setRange(rightMin, rightMax)
+  //   .setValue(rminVal)
+  //   .setLabel("")
+  //   .setFont(font)
+  //   ;
 
   cp5.addToggle("toggle_left")
     .setPosition(tri_units, 0)
@@ -103,24 +103,24 @@ void setupCp5(){
     .setSize(tri_units, twelve_units)
     .setRange(leftSlideMin, leftSlideMax)
     .setValue(lVal)
-    //.setValue(55)
-    .setNumberOfTickMarks(11)
+    .snapToTickMarks(false)
+    .setNumberOfTickMarks(44)
     .showTickMarks(true)
     .setLabel("")
     .setFont(font)
     ;
   cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
-  sr = cp5.addSlider("right_slider")
-    .setPosition(width-tri_units, two_units)
-    .setSize(tri_units, twelve_units)
-    .setRange(rightSlideMin, rightSlideMax)
-    .setValue(55)
-    .setNumberOfTickMarks(11)
-    .showTickMarks(true)
-    .setLabel("")
-    .setFont(font)
-    ;
-  cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
+  // sr = cp5.addSlider("right_slider")
+  //   .setPosition(width-tri_units, two_units)
+  //   .setSize(tri_units, twelve_units)
+  //   .setRange(rightSlideMin, rightSlideMax)
+  //   .setValue(55)
+  //   .setNumberOfTickMarks(11)
+  //   .showTickMarks(true)
+  //   .setLabel("")
+  //   .setFont(font)
+  //   ;
+  //cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   started = true;
 }
 
@@ -131,6 +131,7 @@ void setupCp5(){
 void leftMaxHz(int theValue) {
   if(started && theValue > lMin){
   lMax = theValue;
+  leftSlideMax = theValue;
   sl.setRange(leftSlideMin,theValue);
   cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
@@ -139,26 +140,40 @@ void leftMaxHz(int theValue) {
 void leftMinHz(int theValue) {
   if(started && theValue < lMax){
   lMin = theValue;
+  leftSlideMin = theValue;
+
   sl.setRange(theValue,leftSlideMax);
   cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }
 
-void rightMaxHz(int theValue) {
-  if(started && theValue > rMin){
-  rMax = theValue;
-  sr.setRange(rightSlideMin,theValue);
-  cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
+void left_slider(float theValue) {
+  if(started)  {
+    left_frequency = theValue;
   }
 }
 
-void rightMinHz(int theValue) {
-  if(started && theValue < rMax){
-  rMin = theValue;
-  sr.setRange(theValue,rightSlideMax);
-  cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
-  }
-}
+// void rightMaxHz(int theValue) {
+//   if(started && theValue > rMin){
+//   rMax = theValue;
+//   sr.setRange(rightSlideMin,theValue);
+//   cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
+//   }
+// }
+
+// void rightMinHz(int theValue) {
+//   if(started && theValue < rMax){
+//   rMin = theValue;
+//   sr.setRange(theValue,rightSlideMax);
+//   cp5.getController("right_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
+//   }
+// }
+
+// void right_slider(float theValue) {
+//   if(started)  {
+//     right_frequency = theValue;
+//   }
+// }
 
 void toggle_left(boolean theFlag) {
   if(started)  {
@@ -180,14 +195,3 @@ void toggle_right(boolean theFlag) {
   }
 }
 
-void left_slider(float theValue) {
-  if(started)  {
-    left_frequency = theValue;
-  }
-}
-
-void right_slider(float theValue) {
-  if(started)  {
-    right_frequency = theValue;
-  }
-}
