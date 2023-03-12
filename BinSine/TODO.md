@@ -11,3 +11,4 @@ DONE Implementerat guit på hz & volym
     Verkar som att allt jag ritar hamnar bakom guit
     så får kolla om cp5 har nått liknande canvas lr
     om man kan använda en knapp soch rita på den.
+    # DONE setAutoDraw(false) allows me to draw gui before other drawing 
