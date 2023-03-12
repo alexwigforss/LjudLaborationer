@@ -29,10 +29,8 @@ void soundSetup() {
 
   // BUG TO RESOLVE
   // rsine.pan(-1); // får båda att synas, så analyze() läser tydligen endast vänsterkanalen.
-
-  // fft = new FFT(this, 16);
-  // fft.input(lsine);
-
+  // WorkAround sålänge får bli att ställa båda ljudkällorna i mitten.
+  // och hoppas att det går lättare att fixa med pd4p3 senare.
 }
 
 void soundUpdate() {

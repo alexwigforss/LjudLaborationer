@@ -8,6 +8,8 @@ void setup() {
 }
 
 void draw() {
+  thread("analyzeit");
+  
   background(0,0,100,100);
   cp5.draw();
 
@@ -26,8 +28,13 @@ void draw() {
   noFill();
 
   // Perform the analysis
-  leftwave.analyze();
-  // Draw current data of the waveform
+  //leftwave.analyze();
+    
+    // for (int i = 0; i < samples; i+=4) {
+    //   circle(width/5+map(i, 1, samples, 0, width-(2*width/5)), height/5/2, 100*leftwave.data[i]);
+    //   // circle(width/5+map(i, 1, samples, 0, width-(2*width/5)), height-(height/5/2), 100*leftwave.data[i]);
+    // }
+
   beginShape();
   for(int i = 0; i < samples; i++){
     vertex(
@@ -41,10 +48,7 @@ void draw() {
     text(leftwave.data[i] ,width/1.1,10+(10*i));
   }
   // Perform the analysis
-  //rsine.pan(-1);
-  rightwave.analyze();
-  //rsine.pan(1);
-  // Draw current data of the waveform
+  // rightwave.analyze();
   beginShape();
 
   for(int i = 0; i < samples; i++){
@@ -58,3 +62,22 @@ void draw() {
   circle(mouseX, mouseY, unit);
   soundUpdate();
 }
+public void analyzeit()
+{
+  leftwave.analyze();
+  rightwave.analyze();
+}
+/*
+class Analyzer extends Thread{
+   boolean parameter;
+
+   public Analyzer(String parameter){
+      this.parameter = parameter;
+   }
+
+   public void run(){
+      System.out.println(parameter);
+   }
+}
+// new MyThread("testing").start();
+*/
