@@ -2,7 +2,7 @@ import controlP5.*;
 
 ControlP5 cp5;
 Slider sl, sr;
-//Numberbox nlMax,nlMin,nrMax,nrMin;
+Numberbox lMaxHz,lMinHz;//,nrMax,nrMin;
 int col = color(55);
 //int col = color(255);
 
@@ -10,9 +10,10 @@ boolean toggleValue = false;
 Knob volKnob;
 
 float leftMax=880,leftMin=22,rightMax = 880,rightMin = 22;
+float leftThres = 440, rightThres = 440;
 float lMax=440,lMin=22,rMax = 440,rMin = 22;
 float leftSlideMax=440,leftSlideMin=22,rightSlideMax = 440,rightSlideMin = 22;
-float lVal=440,rVal=440,lMinStartVal = 55,rminVal = 22,lMaxStartVal = 220,rmaxVal = 440;
+float lVal=220,rVal=220,lMinStartVal = 55,rminVal = 22,lMaxStartVal = 220,rmaxVal = 440;
 boolean started = false;
 int unit;
 
@@ -44,22 +45,23 @@ void setupCp5(){
                .setFont(font)
                ;
 
-  cp5.addNumberbox("leftMaxHz")
+  lMaxHz = cp5.addNumberbox("leftMaxHz")
     .setPosition(0, 0)
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
-    .setRange(leftMin, leftMax)
-    .setValue(leftMax)
+    .setRange(leftThres, leftMax)
+    .setValue(leftThres)
     .setLabel("")
     .setFont(font)
     ;
 
-  cp5.addNumberbox("leftMinHz")
+  lMinHz = cp5.addNumberbox("leftMinHz")
     .setPosition(0, height-two_units)
     .setSize(tri_units, two_units)
     .setMultiplier(-1)
-    .setRange(leftMin, leftMax)
-    .setValue(leftMin)
+    .setRange(leftMin, leftThres)
+    .setValue(leftThres)
+    //.setValue(leftMin)
     .setLabel("")
     .setFont(font)
     ;
@@ -105,18 +107,19 @@ void setupCp5(){
     .setValue(lVal)
     .snapToTickMarks(false)
     .setNumberOfTickMarks(44)
-    .showTickMarks(true)
+    //.showTickMarks(true)
     .setLabel("")
     .setFont(font)
     ;
   cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
+
   sr = cp5.addSlider("right_slider")
     .setPosition(width-tri_units, two_units)
     .setSize(tri_units, twelve_units)
     .setRange(rightSlideMin, rightSlideMax)
-    .setValue(55)
+    .setValue(rVal)
     .setNumberOfTickMarks(11)
-    .showTickMarks(true)
+    //.showTickMarks(true)
     .setLabel("")
     .setFont(font)
     ;
@@ -129,20 +132,27 @@ void knobValue(int theValue){
 }
 
 void leftMaxHz(int theValue) {
-  if(started && theValue > lMin){
+  //if(started && theValue > lMin){
+  if(started){
   lMax = theValue;
   leftSlideMax = theValue;
+  leftThres = theValue;
   sl.setRange(leftSlideMin,theValue);
+  lMinHz.setRange(leftMin, leftThres);
+
   cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }
 
 void leftMinHz(int theValue) {
-  if(started && theValue < lMax){
+  //if(started && theValue < lMax){
+  if(started){
   lMin = theValue;
   leftSlideMin = theValue;
+  leftThres = theValue;
 
   sl.setRange(theValue,leftSlideMax);
+  // lMaxHz.setRange(leftThres, leftMax);
   cp5.getController("left_slider").getValueLabel().align(ControlP5.LEFT, ControlP5.TOP).setPaddingX(0);
   }
 }

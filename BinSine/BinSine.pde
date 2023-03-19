@@ -9,7 +9,7 @@ void setup() {
 
 void draw() {
   thread("analyzeit");
-  
+
   background(0,0,100,100);
   cp5.draw();
 
@@ -44,9 +44,9 @@ void draw() {
   }
   endShape();
 
-  for (int i = 0; i < 16; ++i) {
-    text(leftwave.data[i] ,width/1.1,10+(10*i));
-  }
+  // for (int i = 0; i < 16; ++i) {
+  //   text(leftwave.data[i] ,width/1.1,10+(10*i));
+  // }
   // Perform the analysis
   // rightwave.analyze();
   beginShape();
